@@ -19,12 +19,22 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
+
       - name: Setup Java JDK
         uses: actions/setup-java@v4.5.0
         with:
-          # Java distribution. See the list of supported distributions in README file
-          distribution: zulu
+          java-version: 17
+          distribution: temurin
 
-  
-    
-  
+      - name: Caching maven dependencies
+        uses: actions/cache@v4.1.2
+        with:
+          path: ${{ github.workspace }}/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles("**/pom.xml") }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Build project with Maven
+        run: mvn clean package -DskipTests
+        env:
+          MAVEN_OPTS: "-Dmaven.repo.local=${{ github.workspace }}/.m2/repository"
