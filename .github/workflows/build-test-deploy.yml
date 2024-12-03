@@ -40,3 +40,31 @@ jobs:
         run: mvn clean package -DskipTests
         env:
           MAVEN_OPTS: "-Dmaven.repo.local=${{ github.workspace }}/.m2/repository"
+          
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4.5.0
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Caching maven dependencies
+        uses: actions/cache@v4.1.2
+        with:
+          path: ${{ github.workspace }}/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Test with Maven
+        run: mvn test
+        env:
+          MAVEN_OPTS: "-Dmaven.repo.local=${{ github.workspace }}/.m2/repository"
+
