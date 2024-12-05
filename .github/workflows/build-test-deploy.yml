@@ -90,4 +90,4 @@ jobs:
           name: helloworld-${{ env.PROJECT_VERSION }}.jar
 
       - name: Simulate deployment
-        run: echo "Déploiement réussi du fichier JAR :$(ls target/helloworld-1.0-SNAPSHOT.jar)"
+        run: echo "Déploiement réussi du fichier JAR helloworld-1.0-SNAPSHOT.jar"
