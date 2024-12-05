@@ -44,7 +44,7 @@ jobs:
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v3
         with:
-          name: "helloworld-{{ env.PROJECT_VERSION }}.jar"
+          name: helloworld-${{ env.PROJECT_VERSION }}.jar
           path: target/helloworld-1.0-SNAPSHOT.jar
           
   test:
